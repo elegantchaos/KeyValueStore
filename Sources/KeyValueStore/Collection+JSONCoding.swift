@@ -5,7 +5,7 @@
 
 import Foundation
 
-public extension RangeReplaceableCollection where Element: Encodable, Element: Identifiable {
+@available (macOS 10.15, iOS 13, *) public extension RangeReplaceableCollection where Element: Encodable, Element: Identifiable {
     func save(to store: KeyValueStore, with encoder: JSONEncoder, prefix: String = "item-") {
         for item in self {
             if let encoded = try? encoder.encode(item) {

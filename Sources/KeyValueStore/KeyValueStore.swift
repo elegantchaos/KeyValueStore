@@ -5,7 +5,7 @@
 
 import Foundation
 
-protocol KeyValueStore {
+public protocol KeyValueStore {
     func object(forKey: String) -> Any?
     func string(forKey: String) -> String?
     func bool(forKey: String) -> Bool
@@ -13,6 +13,7 @@ protocol KeyValueStore {
     func double(forKey: String) -> Double
     func array(forKey: String) -> [Any]?
     func dictionary(forKey: String) -> [String:Any]?
+    func data(forKey: String) -> Data?
     
     func set(_ string: String?, forKey: String)
     func set(_ bool: Bool, forKey: String)
@@ -20,29 +21,16 @@ protocol KeyValueStore {
     func set(_ integer: Int, forKey: String)
     func set(_ array: [Any]?, forKey: String)
     func set(_ dictionary: [String:Any]?, forKey: String)
+    func set(_ data: Data?, forKey: String)
 }
 
-extension KeyValueStore {
-    func array<T>(forKey key: String, default defaultValue: [T]) -> [T] {
+public extension KeyValueStore {
+    func array<T>(forKey key: String, default defaultValue: [T] = []) -> [T] {
         return (array(forKey: key) as? [T]) ?? defaultValue
     }
-}
 
-extension NSUbiquitousKeyValueStore: KeyValueStore {
-    func set(_ int: Int, forKey key: String) { set(Int64(int), forKey: key) }
-    func integer(forKey key: String) -> Int { return Int(longLong(forKey: key)) }
-}
+    func dictionary<K,V>(forKey key: String, default defaultValue: Dictionary<K,V> = [:]) -> Dictionary<K,V> {
+        return (dictionary(forKey: key) as? Dictionary<K,V>) ?? defaultValue
+    }
 
-extension UserDefaults: KeyValueStore {
-    func set(_ dictionary: [String : Any]?, forKey key: String) {
-        set(dictionary as Any, forKey: key)
-    }
-    
-    func set(_ string: String?, forKey key: String) {
-        set(string as Any, forKey: key)
-    }
-    
-    func set(_ array: [Any]?, forKey key: String) {
-        set(array as Any, forKey: key)
-    }
 }

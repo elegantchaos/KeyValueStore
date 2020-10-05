@@ -6,7 +6,8 @@ extension KeyValueStoreTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__KeyValueStoreTests = [
-        ("testExample", testExample),
+        ("testNSUbiquitousKeyValueStoreConforms", testNSUbiquitousKeyValueStoreConforms),
+        ("testUserDefaultsConforms", testUserDefaultsConforms),
     ]
 }
 

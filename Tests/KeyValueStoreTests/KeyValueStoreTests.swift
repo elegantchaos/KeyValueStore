@@ -9,14 +9,51 @@ import XCTestExtensions
 @testable import KeyValueStore
 
 final class KeyValueStoreTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(KeyValueStore().text, "Hello, World!")
+    func verify<T>(value: T, expected: T) -> Bool where T: Equatable {
+        let match = value == expected
+        XCTAssertTrue(match, "\(T.self) failed")
+        return match
     }
+    
+    func verifyConformance(of store: KeyValueStore?) -> Bool {
+        guard let store = store else {
+            XCTFail("store does not conform to protocol")
+            return false
+        }
+        
+        store.set(1, forKey: "int")
+        guard verify(value: store.integer(forKey: "int"), expected: 1) else { return false }
 
-    static var allTests = [
-        ("testExample", testExample),
-    ]
+        store.set(1.23, forKey: "double")
+        guard verify(value: store.double(forKey: "int"), expected: 1.23) else { return false }
+
+        store.set(true, forKey: "bool")
+        guard verify(value: store.bool(forKey: "int"), expected: true) else { return false }
+
+        store.set("blah", forKey: "string")
+        guard verify(value: store.string(forKey: "string"), expected: "blah") else { return false }
+
+        let array: [Int] = [1,2,3]
+        store.set(array, forKey: "array")
+        guard verify(value: store.array(forKey: "array"), expected: array) else { return false }
+
+        let dict = ["test": 123]
+        store.set(dict, forKey: "c")
+        guard verify(value: store.dictionary(forKey: "dictionary"), expected: dict) else { return false }
+
+        let data = "test".data(using: .utf8)
+        store.set(data, forKey: "data")
+        guard verify(value: store.data(forKey: "data"), expected: data) else { return false }
+
+        return true
+    }
+    
+    func testUserDefaultsConforms() {
+        XCTAssert(verifyConformance(of: UserDefaults.standard))
+    }
+    
+    func testNSUbiquitousKeyValueStoreConforms() {
+        let store = NSUbiquitousKeyValueStore()
+        XCTAssert(verifyConformance(of: store))
+    }
 }
