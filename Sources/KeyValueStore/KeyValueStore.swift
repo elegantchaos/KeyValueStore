@@ -38,7 +38,7 @@ public extension KeyValueStore {
     func uniqueKey(withName name: String) -> String {
         var count = 2
         var key = name
-        while !has(key: name) {
+        while has(key: key) {
             key = "\(name)-\(count)"
             count += 1
         }

@@ -25,10 +25,10 @@ final class KeyValueStoreTests: XCTestCase {
         guard verify(value: store.integer(forKey: "int"), expected: 1) else { return false }
 
         store.set(1.23, forKey: "double")
-        guard verify(value: store.double(forKey: "int"), expected: 1.23) else { return false }
+        guard verify(value: store.double(forKey: "double"), expected: 1.23) else { return false }
 
         store.set(true, forKey: "bool")
-        guard verify(value: store.bool(forKey: "int"), expected: true) else { return false }
+        guard verify(value: store.bool(forKey: "bool"), expected: true) else { return false }
 
         store.set("blah", forKey: "string")
         guard verify(value: store.string(forKey: "string"), expected: "blah") else { return false }
@@ -38,12 +38,18 @@ final class KeyValueStoreTests: XCTestCase {
         guard verify(value: store.array(forKey: "array"), expected: array) else { return false }
 
         let dict = ["test": 123]
-        store.set(dict, forKey: "c")
+        store.set(dict, forKey: "dictionary")
         guard verify(value: store.dictionary(forKey: "dictionary"), expected: dict) else { return false }
+
+        guard verify(value: store.has(key: "dictionary"), expected: true) else { return false }
+        guard verify(value: !store.has(key: "non-existent"), expected: true) else { return false }
 
         let data = "test".data(using: .utf8)
         store.set(data, forKey: "data")
         guard verify(value: store.data(forKey: "data"), expected: data) else { return false }
+
+        guard verify(value: store.uniqueKey(withName: "test"), expected: "test") else { return false }
+        guard verify(value: store.uniqueKey(withName: "string"), expected: "string-2") else { return false }
 
         return true
     }
