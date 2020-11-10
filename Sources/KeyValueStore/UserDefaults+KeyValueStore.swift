@@ -6,6 +6,10 @@
 import Foundation
 
 extension UserDefaults: KeyValueStore {
+    public func has(key: String) -> Bool {
+        object(forKey: key) != nil
+    }
+    
     public func set(_ dictionary: [String : Any]?, forKey key: String) {
         set(dictionary as Any, forKey: key)
     }

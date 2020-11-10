@@ -10,7 +10,7 @@ import PackageDescription
 let package = Package(
     name: "KeyValueStore",
     platforms: [
-        .macOS(.v10_13)
+        .macOS(.v10_13), .iOS(.v12)
     ],
     products: [
         .library(

@@ -6,6 +6,8 @@
 import Foundation
 
 public protocol KeyValueStore {
+    func has(key: String) -> Bool
+
     func object(forKey: String) -> Any?
     func string(forKey: String) -> String?
     func bool(forKey: String) -> Bool
@@ -33,4 +35,13 @@ public extension KeyValueStore {
         return (dictionary(forKey: key) as? Dictionary<K,V>) ?? defaultValue
     }
 
+    func uniqueKey(withName name: String) -> String {
+        var count = 2
+        var key = name
+        while !has(key: name) {
+            key = "\(name)-\(count)"
+            count += 1
+        }
+        return key
+    }
 }
