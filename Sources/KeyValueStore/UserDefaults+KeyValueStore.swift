@@ -25,4 +25,8 @@ extension UserDefaults: KeyValueStore {
     public func set(_ data: Data?, forKey key: String) {
         set(data as Any, forKey: key)
     }
+    
+    public func remove(key: String) {
+        removeObject(forKey: key)
+    }
 }

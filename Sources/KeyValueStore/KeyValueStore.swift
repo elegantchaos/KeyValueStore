@@ -24,6 +24,8 @@ public protocol KeyValueStore {
     func set(_ array: [Any]?, forKey: String)
     func set(_ dictionary: [String:Any]?, forKey: String)
     func set(_ data: Data?, forKey: String)
+    
+    func remove(key: String)
 }
 
 public extension KeyValueStore {
