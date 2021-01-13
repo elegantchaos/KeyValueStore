@@ -18,7 +18,7 @@ let package = Package(
             targets: ["KeyValueStore"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/elegantchaos/XCTestExtensions", from: "1.1.2")
+        .package(url: "https://github.com/elegantchaos/XCTestExtensions.git", from: "1.1.2")
     ],
     targets: [
         .target(
